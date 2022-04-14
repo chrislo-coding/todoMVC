@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/todomvc-app-css@2.3.0/index.css">
+  <title>TodoMVC</title>
+</head>
+
+<body>
+  <div id="app">
+    <section class="todoapp">
+      <header>
+        <h1>todos</h1>
+      </header>
+      <input type="text" class="new-todo" autofocus placeholder="你要做什麼?" />
+      <main>
+        <input id="toggle-all" type="checkbox" class="toggle-all" />
+        <label for="toggle-all"></label>
+        <!-- 上兩行為全選的按紐 -->
+        <ul class="todo-list">
+          <li class="todo">
+            <div class="view">
+              <input type="checkbox" class="toggle" />
+              <label for="">學習 Vue Template</label>
+              <button class="destroy"></button>
+            </div>
+            <input type="text" class="edit" />
+          </li>
+          <li class="todo">
+            <div class="view">
+              <input type="checkbox" class="toggle" />
+              <label for="">學習在 Vue Template 中進行條件判斷</label>
+              <button class="destroy"></button>
+            </div>
+            <input type="text" class="edit" />
+          </li>
+          <li class="todo">
+            <div class="view">
+              <input type="checkbox" class="toggle" />
+              <label for="">學習在 Vue Template 中使用迴圈 </label>
+              <button class="destroy"></button>
+
+            </div>
+            <input type="text" class="edit" />
+          </li>
+        </ul>
+      </main>
+      <foote class="footer">
+        <span class="todo-count"> <strong>3</strong> items left </span>
+        <ul class="filters">
+          <li>
+            <a href="#/all">All</a>
+          </li>
+          <li>
+            <a href="#/active">Active</a>
+          </li>
+          <li>
+            <a href="#/completed">Completed</a>
+          </li>
+        </ul>
+        <button class="clear-completed">
+          Clear completed
+        </button>
+      </footer>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+      message: 'Hello Vue!123',
+      link:"https://www.yahoo.com.tw"
+      },
+      methods:{
+        clickme(){
+          alert(this.message);
+        }
+      }
+    })
+  </script>
+</body>
+
+
+
+</html>
