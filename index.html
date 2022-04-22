@@ -16,13 +16,17 @@
         <h1>todos</h1>
       </header>
       <input v-model='newTodo' v-on:keyup.enter="addTodo"type="text" class="new-todo" autofocus placeholder="你要做什麼?" />
-      <main class="main">
-        <input v-on:click="completed()" id="toggle-all" type="checkbox" class="toggle-all">
+      <main class="main" v-show="todos.length">
+        <input  id="toggle-all" type="checkbox" class="toggle-all">
         <label for="toggle-all"></label>
         <ul class="todo-list">
-          <li v-for="todo in todos" :key="todo.id" class="todo" :class="{completed: todo.completed}">
+          <li v-for="todo in filteredTodos" 
+              :key="todo.id" 
+              class="todo" 
+              :class="{completed: todo.completed}"
+          >
             <div class="view">
-              <input class="toggle" type="checkbox">
+              <input  v-model="todo.completed" class="toggle" type="checkbox" >
               <label for="">{{todo.title}}</label>
               <button v-on:click="removeTodo(todo)"class="destroy"></button>
             </div>
@@ -30,17 +34,17 @@
           </li>
         </ul>
       </main>
-      <footer class="footer">
-        <span class="todo-count"> <strong>3</strong> items left </span>
+      <footer class="footer" v-show="todos.length">
+        <span class="todo-count"> <strong>{{remaining}}</strong> items left </span>
         <ul class="filters">
           <li>
-            <a href="#/all">All</a>
+            <a href="#/all" :class="{ selected: visibility === 'all' }" v-on:click="setVisibility('all')">All</a>
           </li>
           <li>
-            <a href="#/active">Active</a>
+            <a href="#/active" :class="{ selected: visibility === 'active' }"  v-on:click="setVisibility('active')">Active</a>
           </li>
           <li>
-            <a href="#/completed">Completed</a>
+            <a href="#/completed"  :class="{ selected: visibility === 'completed' }" v-on:click="setVisibility('completed')">Completed</a>
           </li>
         </ul>
         <button class="clear-completed">
@@ -53,6 +57,11 @@
   <script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
   <script>
     Vue.config.devtools = true;
+    const filters = {
+      all: (todos) => todos,
+      active: (todos) => todos.filter((todo) => !todo.completed),
+      completed: (todos) => todos.filter((todo) => todo.completed),
+    }
     var app = new Vue({
       el: '#app',
       data: {
@@ -74,6 +83,7 @@
               completed:false,
             },
           ],
+          visibility: 'all',
 
       },
       methods:{
@@ -98,6 +108,17 @@
         this.todos=this.todos.filter(line_todo => line_todo !== todo.id);
         console.log(this.todos)
 
+      },
+      setVisibility(visibility) {
+      this.visibility = visibility;
+    }
+    },
+    computed:{
+      filteredTodos() {
+        return filters[this.visibility](this.todos)
+      },
+      remaining() {
+        return filters.active(this.todos).length;
       }
     }
   })
